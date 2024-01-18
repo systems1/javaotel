@@ -1,0 +1,43 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "volumes": [
+    {
+      "name": "otel-config",
+      "host": {
+        "sourcePath": "/var/app/current/config"
+      }
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "name": "javaagent_app",
+      "image": "systems1/javaagent_app",
+      "essential": true,
+      "memory": 514,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 8080
+        }
+      ]
+    },
+    {
+      "name": "otel-collector-contrib",
+      "image": "otel/opentelemetry-collector-contrib",
+      "essential": true,
+      "memory": 514,
+      "portMappings": [
+        {
+          "hostPort": 4317,
+          "containerPort": 4317
+        }
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "otel-config",
+          "containerPath": "/etc/otel/config.conf"
+        }
+      ]
+    }
+  ]
+}

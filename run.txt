@@ -1,0 +1,7 @@
+#start
+docker-compose up 
+
+#test app 
+curl localhost/ping
+pong
+
